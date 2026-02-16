@@ -7,7 +7,7 @@ import { baseURL } from "./baseUrl"
 export const authApi = async(student)=>{
     try {
         store.dispatch(showLoader())
-         await axios.post('http://localhost:3000/api/v1/student/register', student, {
+         await axios.post(`${baseURL}/api/v1/student/register`, student, {
             headers : {
                 'Content-Type': 'application/json'
            },
@@ -31,7 +31,7 @@ export const authApi = async(student)=>{
 export const activateAccountApi = async(token)=>{
      try {
         store.dispatch(showLoader())
-         await axios.post('http://localhost:3000/api/v1/student/activation-student', {token }, {
+         await axios.post(`${baseURL}/api/v1/student/activation-student`, {token }, {
             headers : {
                 'Content-Type': 'application/json'
            },
