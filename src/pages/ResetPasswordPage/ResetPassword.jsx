@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const isLoading = useSelector((state)=> state.loader.isLoading);
   const dispatch = useDispatch();
   const Navigate = useNavigate();
- console.log(password, "...", confirmPassword);
+ const baseURL =  "https://assignment16-g2pa.onrender.com"
  
  
   const passwordSubmit = async(e)=>{
@@ -26,7 +26,7 @@ const ResetPassword = () => {
     
     try {
        dispatch(showLoader())
-         await axios.post('http://localhost:3000/api/v1/student/reset-password', {token, newPassword: password}, {
+         await axios.post(`${baseURL}/api/v1/student/reset-password`, {token, newPassword: password}, {
             headers : {
                 'Content-Type': 'application/json'
            },

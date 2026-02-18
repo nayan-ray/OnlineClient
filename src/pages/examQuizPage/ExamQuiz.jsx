@@ -22,7 +22,7 @@ const ExamQuiz = () => {
    const {subjName, unitName} = useParams();
    const {state} = useLocation();
    const unitId = state || null;
-   
+   const baseURL =  "https://assignment16-g2pa.onrender.com"
 
  useEffect(()=>{
    
@@ -62,7 +62,7 @@ const testSubmitHandler = async(e)=>{
   e.preventDefault();
  try {
      dispatch(showLoader())
-     const response = await axios.post(`http://localhost:3000/api/v1/exam-quiz/submit`, {anserList : submitAnswer, unitId}, {
+     const response = await axios.post(`${baseURL}/api/v1/exam-quiz/submit`, {anserList : submitAnswer, unitId}, {
               headers : {
                  'Content-Type': 'application/json'
                 },

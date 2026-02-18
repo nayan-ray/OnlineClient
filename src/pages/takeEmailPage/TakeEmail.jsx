@@ -10,12 +10,13 @@ const TakeEmail = () => {
     const [email, setEmail] = useState('');
     const isLoading = useSelector((state)=> state.loader.isLoading);
     const dispatch = useDispatch()
+    const baseURL =  "https://assignment16-g2pa.onrender.com"
     const emailSubmit = async(e)=>{
         e.preventDefault();
        
        try {
          dispatch(showLoader())
-         await axios.post('http://localhost:3000/api/v1/student/email-verification', {email}, {
+         await axios.post(`${baseURL}/api/v1/student/email-verification`, {email}, {
             headers : {
                 'Content-Type': 'application/json'
            },
