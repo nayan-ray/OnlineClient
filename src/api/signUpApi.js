@@ -2,6 +2,7 @@ import axios from "axios"
 import {store} from "../app/store"
 import { hideLoader, showLoader } from "../features/loader/loaderSlice"
 import { removeStudentLocal, setStudentLocal } from "../helper/auth"
+import { clearStudent } from "../features/signUp/signUpSlice"
 const baseURL =  "https://assignment16-g2pa.onrender.com"
 
 export const authApi = async(student)=>{
@@ -24,11 +25,12 @@ export const authApi = async(student)=>{
            
     }finally{
         store.dispatch(hideLoader())
+        return;
     }
    
 }
 
-export const activateAccountApi = async(token)=>{
+export const activateAccountApi = async(token, navigate)=>{
      try {
         store.dispatch(showLoader())
          await axios.post(`${baseURL}/api/v1/student/activation-student`, {token }, {
@@ -37,18 +39,21 @@ export const activateAccountApi = async(token)=>{
            },
             withCredentials : true
         })
-        alert("Student's info taken successfully. Please check your email to activate your account.")
-        return true;
+         
+        navigate("/login", { replace: true });
+        return;
     } catch (error) {
        
         alert("Registration failed. Please try again." )
-         return false ; 
+         navigate("/register", { replace: true });
+         return  ; 
     }finally{
         store.dispatch(hideLoader())
+        return;
     }
 }
 
-export const loginApi = async(student)=>{
+export const loginApi = async(student, login, navigate)=>{
      try {
         store.dispatch(showLoader())
        const response =  await axios.post(`${baseURL}/api/v1/auth/login`, student, {
@@ -59,24 +64,28 @@ export const loginApi = async(student)=>{
         })
         const studentData = response.data.payload
         setStudentLocal(studentData);
-        return studentData;
+        login(studentData);
+        navigate('/dashboard');
+        return;
     } catch (error) {
        if(error.status === 404){
             alert('User not found. Please register first.');
-            return false;
+            return ;
        }
        if(error.status === 401){
            alert('Invalid password or email.');
-           return false;
+           return ;
        }
         alert("Login failed. Please try again." )
-        return false ; 
+        store.dispatch(clearStudent())
+        return ; 
     }finally{
         store.dispatch(hideLoader())
+        return;
     }
 }
 
-export const logOutApi = async()=>{
+export const logOutApi = async(navigate, logout)=>{
      try {
         store.dispatch(showLoader())
         await axios.post(`${baseURL}/api/v1/auth/logout`,  {
@@ -86,12 +95,15 @@ export const logOutApi = async()=>{
             withCredentials : true
         })
         removeStudentLocal();
-        return true;
+         logout();
+           navigate('/')
+        return ;
     } catch (error) {
        
         alert("Logout failed. Please try again." )
-        return false ; 
+        return  ; 
     }finally{
         store.dispatch(hideLoader())
+        return;
     }
 }

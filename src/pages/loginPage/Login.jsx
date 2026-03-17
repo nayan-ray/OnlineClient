@@ -15,14 +15,7 @@ const Login = () => {
 
      const handleSubmit = async(e)=>{
         e.preventDefault();
-        const studentData = await loginApi(student);
-        if(studentData){
-            login(studentData)
-             navigate('/dashboard')
-            
-        }else{
-           dispatch(clearStudent())
-        }
+        await loginApi(student, login, navigate,);
      }
   return (
     <div className='login-container'>

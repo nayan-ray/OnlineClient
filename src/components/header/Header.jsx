@@ -15,12 +15,7 @@ const Header = () => {
    
 
     const handleLogOut = async()=>{
-        const isLogOut = await logOutApi();
-
-        if(isLogOut){
-           logout();
-           navigate('/')
-        }
+       await logOutApi(navigate, logout);
     }
     
   return (

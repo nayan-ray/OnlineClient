@@ -10,14 +10,7 @@ const ActiveAccount = () => {
     const navigate = useNavigate();
    const isLoading = useSelector((state)=> state.loader.isLoading);
    const handleSubmitApi = async()=>{
-      const response =await activateAccountApi(token);
-      console.log(response);
-      
-      if(response){
-         navigate("/login", { replace: true });
-      }else{
-         navigate("/register", { replace: true });
-      }
+      await activateAccountApi(token, navigate); 
    }
  if(isLoading){
     return <Loader />
