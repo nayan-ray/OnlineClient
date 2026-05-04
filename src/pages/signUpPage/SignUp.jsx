@@ -3,13 +3,18 @@ import "./signUp.css"
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setStudent } from '../../features/signUp/signUpSlice'
-import { authApi } from '../../api/signUpApi'
+import { authApi, authApiNormally } from '../../api/signUpApi'
 
 const SignUp = () => {
      const student = useSelector((state) => state.signup.student);
      const isLoading = useSelector((state)=> state.loader.isLoading);
      const dispatch = useDispatch();
-    
+     
+     const handleSignUpNormally = (e)=>{
+        // handle sign up normally without email verification
+         e.preventDefault();
+         authApiNormally(student);
+     }
 
      const handleSubmit = (e)=>{
          e.preventDefault();
@@ -57,15 +62,13 @@ const SignUp = () => {
                 {/* dropdown for class */}
                 <select className='dropdown-class'  id="user-class" name='classId' value={student?.classId || ''} required onChange={(e) => dispatch(setStudent({field: e.target.name, value: e.target.value}))} disabled={isLoading}>
                     <option value="">Select Class</option>
-                    <option value="693f766e9d21b62514bf567a">Ten</option>
-                    <option value="Eight">Eight</option> 
-                    <option value="class3">Class 3</option>
-                    <option value="class4">Class 4</option>
-                    <option value="class5">Class 5</option>
+                    <option value="693f766e9d21b62514bf567a">Ten</option>                
                 </select>
             </div>
            
-            <button type="submit" disabled={isLoading}>Sign Up</button>
+            <button onClick={handleSignUpNormally} disabled={isLoading}>Sign Up Normally</button>
+            <p>OR</p>
+            <button type="submit" disabled={isLoading}>Sign Up with email verification</button>
             <p>Already have an account? please <Link to={"/login"}>Login</Link></p>
            </form>
        </div>

@@ -5,6 +5,31 @@ import { removeStudentLocal, setStudentLocal } from "../helper/auth"
 import { clearStudent } from "../features/signUp/signUpSlice"
 const baseURL =  "https://assignment16-g2pa.onrender.com"
 
+export const authApiNormally = async(student)=>{
+    try {
+        store.dispatch(showLoader())
+         await axios.post(`${baseURL}/api/v1/student/register-normally`, student, {
+            headers : {
+                'Content-Type': 'application/json'
+           },
+            withCredentials : true
+        })
+        alert("Student's info taken successfully. Please check your email to activate your account.")
+        
+    } catch (error) {
+        if(error.status === 409){
+            alert("User already exists. Please Login.");
+            return;
+        }
+        alert("Registration failed. Please try again." )
+           
+    }finally{
+        store.dispatch(hideLoader())
+        return;
+    }
+   
+}
+
 export const authApi = async(student)=>{
     try {
         store.dispatch(showLoader())
@@ -29,6 +54,7 @@ export const authApi = async(student)=>{
     }
    
 }
+
 
 export const activateAccountApi = async(token, navigate)=>{
      try {
