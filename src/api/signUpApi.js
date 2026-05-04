@@ -5,7 +5,7 @@ import { removeStudentLocal, setStudentLocal } from "../helper/auth"
 import { clearStudent } from "../features/signUp/signUpSlice"
 const baseURL =  "https://assignment16-g2pa.onrender.com"
 
-export const authApiNormally = async(student)=>{
+export const authApiNormally = async(student, navigate)=>{
     try {
         store.dispatch(showLoader())
          await axios.post(`${baseURL}/api/v1/student/register-normally`, student, {
@@ -14,7 +14,8 @@ export const authApiNormally = async(student)=>{
            },
             withCredentials : true
         })
-        alert("Student's info taken successfully. Please check your email to activate your account.")
+
+         navigate("/login", { replace: true });
         
     } catch (error) {
         if(error.status === 409){

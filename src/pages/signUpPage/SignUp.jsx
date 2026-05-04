@@ -1,6 +1,6 @@
 import React from 'react'
 import "./signUp.css"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setStudent } from '../../features/signUp/signUpSlice'
 import { authApi, authApiNormally } from '../../api/signUpApi'
@@ -8,12 +8,14 @@ import { authApi, authApiNormally } from '../../api/signUpApi'
 const SignUp = () => {
      const student = useSelector((state) => state.signup.student);
      const isLoading = useSelector((state)=> state.loader.isLoading);
+    const navigate = useNavigate();
      const dispatch = useDispatch();
+
      
      const handleSignUpNormally = (e)=>{
         // handle sign up normally without email verification
          e.preventDefault();
-         authApiNormally(student);
+         authApiNormally(student, navigate);
      }
 
      const handleSubmit = (e)=>{
